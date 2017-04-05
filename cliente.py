@@ -2,5 +2,5 @@
 # encoding: utf-8
 class Client:
 	# """Classe que representa um cliente
-	# Como s�o indistintos neste exemplo, est� vazia"""
+	# Como são indistintos neste exemplo, está vazia"""
 	pass

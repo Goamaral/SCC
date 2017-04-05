@@ -21,8 +21,17 @@ class Fila:
         if (self.estado == 0):  # Se serviço livre,
             self.estado = self.estado + 1  # fica ocupado e
             # agenda saída do cliente c para daqui a self.simulator.media_serv instantes
-            self.simulator.insereEvento(
-                eventos.Saida(self.simulator.instant + self.simulator.media_serv, self.simulator))
+            if self == self.simulator.a_perfuracao_queue:
+                self.simulator.insereEvento(
+                    eventos.Saida_Perfuracao(self.simulator.instant + self.simulator.media_perfuracao, self.simulator))
+            elif self == self.simulator.a_polimento_queue:
+                self.simulator.insereEvento(
+                    eventos.Saida_Polimento(self.simulator.instant + self.simulator.media_polimento, self.simulator))
+            elif self == self.simulator.envernizamento_queue:
+                self.simulator.insereEvento(
+                    eventos.Saida(self.simulator.instant + self.simulator.media_polimento, self.simulator))
+        
+
         else:
             self.fila.append(client)  # Se serviço ocupado, o cliente vai para a fila de espera
 
@@ -35,8 +44,16 @@ class Fila:
             # vai buscar próximo cliente à fila de espera e
             self.fila.pop(0)
             # agenda a sua saida para daqui a self.simulator.media_serv instantes
-            self.simulator.insereEvento(
-                eventos.Saida(self.simulator.instant + self.simulator.media_serv, self.simulator))
+            if self == self.simulator.a_perfuracao_queue:
+                self.simulator.insereEvento(
+                    eventos.Saida_Perfuracao(self.simulator.instant + self.simulator.media_perfuracao, self.simulator))
+            elif self == self.simulator.a_polimento_queue:
+                self.simulator.insereEvento(
+                    eventos.Saida_Polimento(self.simulator.instant + self.simulator.media_polimento, self.simulator))
+            elif self == self.simulator.envernizamento_queue:
+                self.simulator.insereEvento(
+                    eventos.Saida(self.simulator.instant + self.simulator.media_polimento, self.simulator))
+        
 
     def act_stats(self):
         # """Método que calcula valores para estatísticas, em cada passo da simulação ou evento"""
@@ -50,7 +67,7 @@ class Fila:
         # Contabiliza tempo de atendimento
         self.soma_temp_serv = self.soma_temp_serv + (self.estado * temp_desd_ult)
 
-    def relat(self):
+    def relat(self, nome):
         # """Método que calcula valores finais estatísticos"""
         # Tempo médio de espera na fila
         temp_med_fila = self.soma_temp_esp / (self.atendidos + len(self.fila))
@@ -62,6 +79,7 @@ class Fila:
         utilizacao_serv = self.soma_temp_serv / self.simulator.instant
 
         # Apresenta resultados
+        print("Relatorio: %s"%(nome,))
         print("Tempo medio de espera", temp_med_fila)
         print("Comp. medio da fila", comp_med_fila)
         print("Utilizacao do servico", utilizacao_serv)
