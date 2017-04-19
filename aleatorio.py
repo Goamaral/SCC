@@ -11,4 +11,7 @@ def exponencial(media):
 	# """Gera um n�mero segundo uma distribui��o exponencial negativa de m�dia m"""
 	return (-media*math.log(random.random()))
 
+def normal(dist):
+	 return random.gauss(dist[0], dist[1])
+
 #print Aleatorio().exponencial(2) #test
