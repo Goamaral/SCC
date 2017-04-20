@@ -62,6 +62,8 @@ class Simulador:
         """Método que actualiza os valores estat�sticos do simulador"""
         self.a_perfuracao_queue.act_stats()
         self.a_polimento_queue.act_stats()
+        self.b_perfuracao_queue.act_stats()
+        self.b_polimento_queue.act_stats()
         self.envernizamento_queue.act_stats()
 
     def relat(self):
