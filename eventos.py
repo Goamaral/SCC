@@ -38,10 +38,11 @@ class Chegada(Evento):
 		#Coloca cliente no serviço - na fila ou a ser atendido, conforme o caso
 		if self.tipo == 'A':
 			self.simulator.a_perfuracao_queue.insereClient(cliente.Client("A"))
+			self.simulator.insereEvento(Chegada(self.simulator.instant+aleatorio.exponencial(self.simulator.media_cheg_A),self.simulator, self.tipo))
 		elif self.tipo == 'B':
 			self.simulator.b_perfuracao_queue.insereClient(cliente.Client("B"))
+			self.simulator.insereEvento(Chegada(self.simulator.instant+aleatorio.exponencial(self.simulator.media_cheg_B),self.simulator, self.tipo))
 			#Agenda nova chegada para daqui a aleatorio.exponencial(self.simulator.media_cheg) instantes
-		self.simulator.insereEvento(Chegada(self.simulator.instant+aleatorio.exponencial(self.simulator.media_cheg_A),self.simulator, self.tipo))
 
 
 class Saida(Evento):
