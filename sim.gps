@@ -1,0 +1,48 @@
+perfuracao_a	STORAGE 1
+polimento_a	STORAGE 1
+
+perfuracao_b	STORAGE 1
+polimento_b	STORAGE 2
+
+envernizamento	STORAGE 2
+
+
+A	GENERATE	(EXPONENTIAL(1,0,5))
+	QUEUE	perfuracao_a
+	ENTER	perfuracao_a
+	DEPART	perfuracao_a
+	ADVANCE	(ABS(NORMAL(20,2,0.7)))
+	LEAVE	perfuracao_a
+
+	QUEUE	polimento_a
+	ENTER	polimento_a
+	DEPART	polimento_a
+	ADVANCE	(ABS(NORMAL(30,4,1.2)))
+ 	LEAVE	polimento_a
+	TRANSFER	,env_tag
+
+B	GENERATE	(EXPONENTIAL(50,0,1.33))
+	QUEUE	perfuracao_b
+	ENTER	perfuracao_b
+	DEPART	perfuracao_b
+	ADVANCE	(ABS(NORMAL(60,0.75,0.3)))
+	LEAVE	perfuracao_b
+
+	QUEUE	polimento_b
+	ENTER	polimento_b
+	DEPART	polimento_b
+	ADVANCE	(ABS(NORMAL(70,3,1)))
+ 	LEAVE	polimento_b
+	TRANSFER	,env_tag
+
+env_tag	QUEUE	envernizamento
+	ENTER	envernizamento
+	DEPART	envernizamento
+	ADVANCE	(ABS(NORMAL(40, 1.4, 0.3)))
+	LEAVE	envernizamento
+
+	TERMINATE
+
+
+GENERATE 600
+TERMINATE 1
