@@ -8,10 +8,10 @@ class Fila:
     # """Classe que representa um serviço com uma fila de espera associada"""
 
     # Construtor
-    def __init__(self, sim, n_servicos, dist, prox_fila):
+    def __init__(self, sim, n_servicos, dist, prox_fila, n_maquinas):
         self.fila = []  # Fila de espera do serviço
         self.servico = [] #Lista de Tuplos (cliente, tempo_de_saida) no serviço
-        self.n_servicos = n_servicos
+        self.n_servicos = n_maquinas
         self.simulator = sim  # Referência para o simulador a que pertence o servi�o
         self.estado = 0  # Variável que regista o estado do serviço: 0 - livre; 1 - ocupado
         self.temp_last = sim.instant  # Tempo que passou desde o último evento. Neste caso 0, porque a simulação ainda não começou.
@@ -72,3 +72,5 @@ class Fila:
         print("Tempo de simulacao", self.simulator.instant)
         print("Numero de clientes atendidos", self.atendidos)
         print("Numero de clientes na fila", len(self.fila))
+
+        return { 'mediaEspera': temp_med_fila, 'utilizacao': utilizacao_serv }

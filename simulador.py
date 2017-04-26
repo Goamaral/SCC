@@ -11,32 +11,46 @@ class Simulador:
 
     # Construtor
     def __init__(self):
+        self.n_repeticoes = None
+        self.tempo_simulacao = None
+        self.n_clientes = None
+
         # Médias das distribuições de chegadas e de atendimento no serviço
-        self.media_cheg_A = 5
-        self.dist_perfuracao_A = (2, 0.7)
-        self.dist_polimento_A = (4, 1.2)
+        self.media_cheg_A = None
+        self.dist_perfuracao_A = None
+        self.numero_maquinas_perfuracao_A = None
+        self.dist_polimento_A = None
+        self.numero_maquinas_polimento_A = None
 
-        self.media_cheg_B = 1.33
-        self.dist_perfuracao_B = (0.75, 0.3)
-        self.dist_polimento_B = (3, 1)
+        self.media_cheg_B = None
+        self.dist_perfuracao_B = None
+        self.numero_maquinas_perfuracao_B = None
+        self.dist_polimento_B = None
+        self.numero_maquinas_polimento_B = None
 
-        self.dist_envernizamento = (1.4, 0.3)
-        # Numero de clientes que vão ser atendidos
-        self.n_clientes = 100
+        self.dist_envernizamento = None
+        self.numero_maquinas_envernizamento = None
+
+        self.a_perfuracao_relat = None
+        self.a_polimento_relat = None
+        self.b_perfuracao_relat = None
+        self.b_polimento_relat = None
+        self.envernizamento_relat = None
 
         # Relógio de simulação - variável que contém o valor do tempo em cada instante
         self.instant = 0  # valor inicial a zero
 
+    def setup(self):
         # Serviço - pode haver mais do que um num simulador
         # Queues for objects of type A.
         #Queues for both objects
-        self.envernizamento_queue = fila.Fila(self, 2, self.dist_envernizamento, None)
+        self.envernizamento_queue = fila.Fila(self, 2, self.dist_envernizamento, None, self.numero_maquinas_envernizamento)
 
-        self.a_polimento_queue = fila.Fila(self, 1, self.dist_polimento_A, self.envernizamento_queue)
-        self.b_polimento_queue = fila.Fila(self, 2, self.dist_polimento_B, self.envernizamento_queue)
+        self.a_polimento_queue = fila.Fila(self, 1, self.dist_polimento_A, self.envernizamento_queue, self.numero_maquinas_polimento_A)
+        self.b_polimento_queue = fila.Fila(self, 2, self.dist_polimento_B, self.envernizamento_queue, self.numero_maquinas_polimento_B)
 
-        self.b_perfuracao_queue = fila.Fila(self, 1 , self.dist_perfuracao_B, self.b_polimento_queue)
-        self.a_perfuracao_queue = fila.Fila(self, 1, self.dist_perfuracao_A, self.a_polimento_queue)
+        self.b_perfuracao_queue = fila.Fila(self, 1 , self.dist_perfuracao_B, self.b_polimento_queue, self.numero_maquinas_perfuracao_B)
+        self.a_perfuracao_queue = fila.Fila(self, 1, self.dist_perfuracao_A, self.a_polimento_queue, self.numero_maquinas_perfuracao_A)
 
         # Lista de eventos - onde ficam registados todos os eventos que vão ocorrer na simulação
         # Cada simulador só tem uma
@@ -48,6 +62,7 @@ class Simulador:
         self.insereEvento(eventos.Chegada(self.instant, self, 'B'))
 
     def executa(self):
+        self.setup()
         """Método executivo do simulador"""
         # Enquanto não atender todos os clientes
         while (self.envernizamento_queue.atendidos < self.n_clientes):
@@ -69,20 +84,12 @@ class Simulador:
     def relat(self):
         """Método que apresenta os resultados de simula��o finais"""
         print ("\n\n------------FINAL RESULTS---------------\n")
-        self.a_perfuracao_queue.relat("Perfuracao A")
+        self.a_perfuracao_relat = self.a_perfuracao_queue.relat("Perfuracao A")
         print()
-        self.a_polimento_queue.relat("Polimento A")
+        self.a_polimento_relat = self.a_polimento_queue.relat("Polimento A")
         print()
-        self.b_perfuracao_queue.relat("Perfuracao B")
+        self.b_perfuracao_relat = self.b_perfuracao_queue.relat("Perfuracao B")
         print()
-        self.b_polimento_queue.relat("Polimento B")
+        self.b_polimento_relat = self.b_polimento_queue.relat("Polimento B")
         print()
-        self.envernizamento_queue.relat("Envernizamento")
-
-
-# programa principal
-
-# Cria um simulador e
-s = Simulador()
-# põe-o em marcha
-s.executa()
+        self.envernizamento_relat = self.envernizamento_queue.relat("Envernizamento")

@@ -12,6 +12,7 @@ def exponencial(media):
 	return (-media*math.log(random.random()))
 
 def normal(dist):
-	 return random.gauss(dist[0], dist[1])
+    print dist
+    return random.gauss(dist[0], dist[1])
 
 #print Aleatorio().exponencial(2) #test
