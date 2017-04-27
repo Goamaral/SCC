@@ -32,9 +32,9 @@ class Random:
             #print 'start'
             v1 = 2 * rand_generator.rand(self.stream) - 1
             v2 = 2 * rand_generator.rand(self.stream) - 1
-            #print v1
-            #print v2
-        print 'end'
+            # print(self.stream)
+            # print(v1)
+            # print(v2)
 
         w = math.pow(v1,2) + math.pow(v2,2)
 
@@ -48,7 +48,10 @@ class Random:
         self.has_next_normal = True
         return x1
 
+    def reset_stream_count():
+        Random.stream_i = 0
+
 if __name__ == "__main__":
-	rand = Random(1)
+	rand = Random(100)
 	for i in range(10):
-		print(rand.normal((10,0)))
+		print(rand.normal((10,1)))

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+    #!/usr/bin/env python
 # encoding: utf-8
 import fila
 import lista
@@ -51,13 +51,15 @@ class Simulador:
         # Queues for objects of type A.
         #Queues for both objects
 
+        aleatorio.Random.reset_stream_count()
+
         self.envernizamento_queue = fila.Fila(self, 2, self.dist_envernizamento, None, self.numero_maquinas_envernizamento, 100000+1000000*self.repeticao_i)
 
         self.a_polimento_queue = fila.Fila(self, 1, self.dist_polimento_A, self.envernizamento_queue, self.numero_maquinas_polimento_A, 200000+1000000*self.repeticao_i)
-        self.b_polimento_queue = fila.Fila(self, 2, self.dist_polimento_B, self.envernizamento_queue, self.numero_maquinas_polimento_B, 300000*self.repeticao_i)
+        self.b_polimento_queue = fila.Fila(self, 2, self.dist_polimento_B, self.envernizamento_queue, self.numero_maquinas_polimento_B, 300000+1000000*self.repeticao_i)
 
-        self.b_perfuracao_queue = fila.Fila(self, 1 , self.dist_perfuracao_B, self.b_polimento_queue, self.numero_maquinas_perfuracao_B, 400000*self.repeticao_i)
-        self.a_perfuracao_queue = fila.Fila(self, 1, self.dist_perfuracao_A, self.a_polimento_queue, self.numero_maquinas_perfuracao_A, 500000*self.repeticao_i)
+        self.b_perfuracao_queue = fila.Fila(self, 1 , self.dist_perfuracao_B, self.b_polimento_queue, self.numero_maquinas_perfuracao_B, 400000+1000000*self.repeticao_i)
+        self.a_perfuracao_queue = fila.Fila(self, 1, self.dist_perfuracao_A, self.a_polimento_queue, self.numero_maquinas_perfuracao_A, 500000+1000000*self.repeticao_i)
 
         # Lista de eventos - onde ficam registados todos os eventos que vão ocorrer na simulação
         # Cada simulador só tem uma
@@ -65,8 +67,8 @@ class Simulador:
 
         # Agendamento da primeira chegada
         # Se não for feito, o simulador não tem eventos para simular
-        r1 = aleatorio.Random(600000*self.repeticao_i)
-        r2 = aleatorio.Random(700000*self.repeticao_i)
+        r1 = aleatorio.Random(600000+1000000*self.repeticao_i)
+        r2 = aleatorio.Random(700000+1000000*self.repeticao_i)
         self.insereEvento(eventos.Chegada(self.instant, self, 'A', r1))
         self.insereEvento(eventos.Chegada(self.instant, self, 'B', r2))
 

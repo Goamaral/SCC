@@ -72,12 +72,12 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
 
         sum_media_espera_b_perfuracao = 0
         sum_utilizacao_b_perfuracao = 0
-        sum_atendidos_a_perfuracao = 0
+        sum_atendidos_b_perfuracao = 0
         sum_clientes_fila_b_perfuracao = 0
 
         sum_media_espera_b_polimento = 0
         sum_utilizacao_b_polimento = 0
-        sum_atendidos_a_polimento = 0
+        sum_atendidos_b_polimento = 0
         sum_clientes_fila_b_polimento = 0
 
         sum_media_espera_envernizamento = 0
@@ -118,6 +118,8 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
             sum_clientes_atendidos += S.envernizamento_relat["nClientesAtendidos"]
             sum_clientes_fila_envernizamento += S.envernizamento_relat["nClientesFila"]
 
+        n_repeticoes = float(n_repeticoes)
+
         media_espera_a_perfuracao = sum_media_espera_a_perfuracao / n_repeticoes
         media_utilizacao_a_perfuracao = sum_utilizacao_a_perfuracao / n_repeticoes
         media_clientes_atendidos_a_perfuracao = sum_atendidos_a_perfuracao / n_repeticoes
@@ -143,34 +145,36 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
         media_clientes_atendidos = sum_clientes_atendidos / n_repeticoes
         media_clientes_fila_envernizamento = sum_clientes_fila_envernizamento / n_repeticoes
 
-        self.relatorio.mEsperaPerfuracaoA.setText(str(media_espera_a_perfuracao))
-        self.relatorio.utilPerfuracaoA.setText(str(media_utilizacao_a_perfuracao))
-        self.relatorio.atendidosPerfuracaoA.setText(str(media_clientes_atendidos_a_perfuracao))
-        self.relatorio.compPerfuracaoA.setText(str(media_clientes_fila_a_perfuracao))
+        print(media_espera_a_perfuracao)
 
-        self.relatorio.mEsperaPolimentoA.setText(str(media_espera_a_polimento))
-        self.relatorio.utilPolimentoA.setText(str(media_utilizacao_a_polimento))
-        self.relatorio.atendidosPolimentoA.setText(str(media_clientes_atendidos_a_polimento))
-        self.relatorio.compPolimentoA.setText(str(media_clientes_fila_a_polimento))
+        self.relatorio.mEsperaPerfuracaoA.setText("%0.2f"%(media_espera_a_perfuracao,))
+        self.relatorio.utilPerfuracaoA.setText("%0.2f"%(media_utilizacao_a_perfuracao,))
+        self.relatorio.atendidosPerfuracaoA.setText("%0.2f"%(media_clientes_atendidos_a_perfuracao,))
+        self.relatorio.compPerfuracaoA.setText("%0.2f"%(media_clientes_fila_a_perfuracao,))
 
-        self.relatorio.mEsperaPerfuracaoB.setText(str(media_espera_b_perfuracao))
-        self.relatorio.utilPerfuracaoB.setText(str(media_utilizacao_b_perfuracao))
-        self.relatorio.atendidosPerfuracaoB.setText(str(media_clientes_atendidos_b_perfuracao))
-        self.relatorio.compPerfuracaoB.setText(str(media_clientes_fila_b_perfuracao))
+        self.relatorio.mEsperaPolimentoA.setText("%0.2f"%(media_espera_a_polimento,))
+        self.relatorio.utilPolimentoA.setText("%0.2f"%(media_utilizacao_a_polimento,))
+        self.relatorio.atendidosPolimentoA.setText("%0.2f"%(media_clientes_atendidos_a_polimento,))
+        self.relatorio.compPolimentoA.setText("%0.2f"%(media_clientes_fila_a_polimento,))
 
-        self.relatorio.mEsperaPolimentoB.setText(str(media_espera_b_polimento))
-        self.relatorio.utilPolimentoB.setText(str(media_utilizacao_b_polimento))
-        self.relatorio.atendidosPolimentoB.setText(str(media_clientes_atendidos_b_polimento))
-        self.relatorio.compPolimentoB.setText(str(media_clientes_fila_b_polimento))
+        self.relatorio.mEsperaPerfuracaoB.setText("%0.2f"%(media_espera_b_perfuracao,))
+        self.relatorio.utilPerfuracaoB.setText("%0.2f"%(media_utilizacao_b_perfuracao,))
+        self.relatorio.atendidosPerfuracaoB.setText("%0.2f"%(media_clientes_atendidos_b_perfuracao,))
+        self.relatorio.compPerfuracaoB.setText("%0.2f"%(media_clientes_fila_b_perfuracao,))
 
-        self.relatorio.mEsperaEnvernizamento.setText(str(media_espera_envernizamento))
-        self.relatorio.utilEnvernizamento.setText(str(media_utilizacao_envernizamento))
-        self.relatorio.clientesAtendidos.setText(str(media_clientes_atendidos))
-        self.relatorio.compEnvernizamento.setText(str(media_clientes_fila_envernizamento))
+        self.relatorio.mEsperaPolimentoB.setText("%0.2f"%(media_espera_b_polimento,))
+        self.relatorio.utilPolimentoB.setText("%0.2f"%(media_utilizacao_b_polimento,))
+        self.relatorio.atendidosPolimentoB.setText("%0.2f"%(media_clientes_atendidos_b_polimento,))
+        self.relatorio.compPolimentoB.setText("%0.2f"%(media_clientes_fila_b_polimento,))
+
+        self.relatorio.mEsperaEnvernizamento.setText("%0.2f"%(media_espera_envernizamento,))
+        self.relatorio.utilEnvernizamento.setText("%0.2f"%(media_utilizacao_envernizamento,))
+        self.relatorio.clientesAtendidos.setText("%0.2f"%(media_clientes_atendidos,))
+        self.relatorio.compEnvernizamento.setText("%0.2f"%(media_clientes_fila_envernizamento,))
         #MEDIA DISTO TAMBEM SO SE FIZERMOS PARA O NUMERO DE CLIENTES
 
-        self.relatorio.tempoSimulacao.setText(str(S.instant))
-        self.relatorio.nRepeticoes.setText(str(S.n_repeticoes))
+        self.relatorio.tempoSimulacao.setText("%d"%(S.instant))
+        self.relatorio.nRepeticoes.setText("%d"%(n_repeticoes))
         self.relatorio.show()
 
 class OutputWindow(QtGui.QMainWindow, outputWindow.Ui_MainWindow):
