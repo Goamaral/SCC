@@ -8,7 +8,7 @@ class Fila:
     # """Classe que representa um serviço com uma fila de espera associada"""
 
     # Construtor
-    def __init__(self, sim, n_servicos, dist, prox_fila):
+    def __init__(self, sim, n_servicos, dist, prox_fila, seed):
         self.fila = []  # Fila de espera do serviço
         self.servico = [] #Lista de Tuplos (cliente, tempo_de_saida) no serviço
         self.n_servicos = n_servicos
@@ -20,11 +20,12 @@ class Fila:
         self.soma_temp_serv = 0
         self.prox_fila = prox_fila
         self.dist = dist
+        self.random_generator = aleatorio.Random(seed)
 
     def insereClient(self, client):
         # """Método que insere cliente (client) no serviço"""
         if len(self.servico) < self.n_servicos:  # Se serviço livre,
-            tempo_de_saida = self.simulator.instant + aleatorio.normal(self.dist)
+            tempo_de_saida = self.simulator.instant + self.random_generator.normal(self.dist)
             self.servico.append((client, tempo_de_saida))
             sorted(self.servico, key=lambda servico: servico[1], reverse=True)
             self.simulator.insereEvento(

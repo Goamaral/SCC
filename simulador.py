@@ -3,7 +3,7 @@
 import fila
 import lista
 import eventos
-
+import aleatorio
 
 class Simulador:
     def insereEvento(self, event):
@@ -22,7 +22,7 @@ class Simulador:
 
         self.dist_envernizamento = (1.4, 0.3)
         # Numero de clientes que vão ser atendidos
-        self.n_clientes = 100
+        self.n_clientes = 2400
 
         # Relógio de simulação - variável que contém o valor do tempo em cada instante
         self.instant = 0  # valor inicial a zero
@@ -30,13 +30,13 @@ class Simulador:
         # Serviço - pode haver mais do que um num simulador
         # Queues for objects of type A.
         #Queues for both objects
-        self.envernizamento_queue = fila.Fila(self, 2, self.dist_envernizamento, None)
+        self.envernizamento_queue = fila.Fila(self, 2, self.dist_envernizamento, None, 100000)
 
-        self.a_polimento_queue = fila.Fila(self, 1, self.dist_polimento_A, self.envernizamento_queue)
-        self.b_polimento_queue = fila.Fila(self, 2, self.dist_polimento_B, self.envernizamento_queue)
+        self.a_polimento_queue = fila.Fila(self, 1, self.dist_polimento_A, self.envernizamento_queue, 200000)
+        self.b_polimento_queue = fila.Fila(self, 2, self.dist_polimento_B, self.envernizamento_queue, 300000)
 
-        self.b_perfuracao_queue = fila.Fila(self, 1 , self.dist_perfuracao_B, self.b_polimento_queue)
-        self.a_perfuracao_queue = fila.Fila(self, 1, self.dist_perfuracao_A, self.a_polimento_queue)
+        self.b_perfuracao_queue = fila.Fila(self, 1 , self.dist_perfuracao_B, self.b_polimento_queue, 400000)
+        self.a_perfuracao_queue = fila.Fila(self, 1, self.dist_perfuracao_A, self.a_polimento_queue, 500000)
 
         # Lista de eventos - onde ficam registados todos os eventos que vão ocorrer na simulação
         # Cada simulador só tem uma
@@ -44,8 +44,10 @@ class Simulador:
 
         # Agendamento da primeira chegada
         # Se não for feito, o simulador não tem eventos para simular
-        self.insereEvento(eventos.Chegada(self.instant, self, 'A'))
-        self.insereEvento(eventos.Chegada(self.instant, self, 'B'))
+        r1 = aleatorio.Random(600000)
+        r2 = aleatorio.Random(700000)
+        self.insereEvento(eventos.Chegada(self.instant, self, 'A', r1))
+        self.insereEvento(eventos.Chegada(self.instant, self, 'B', r2))
 
     def executa(self):
         """Método executivo do simulador"""

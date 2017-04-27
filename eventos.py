@@ -24,9 +24,10 @@ class Evento:
 class Chegada(Evento):
 	# """Classe que representa a chegada de um cliente. Deriva de Evento."""
 	#Construtor
-	def __init__(self,i,sim,tipo):
+	def __init__(self,i,sim,tipo, random_generator):
 		Evento.__init__(self,i,sim)
 		self.tipo = tipo
+		self.random_generator = random_generator
 
 	def __str__(self):
 		# """Método que descreve o evento.
@@ -38,10 +39,10 @@ class Chegada(Evento):
 		#Coloca cliente no serviço - na fila ou a ser atendido, conforme o caso
 		if self.tipo == 'A':
 			self.simulator.a_perfuracao_queue.insereClient(cliente.Client("A"))
-			self.simulator.insereEvento(Chegada(self.simulator.instant+aleatorio.exponencial(self.simulator.media_cheg_A),self.simulator, self.tipo))
+			self.simulator.insereEvento(Chegada(self.simulator.instant+self.random_generator.exponencial(self.simulator.media_cheg_A),self.simulator, self.tipo, self.random_generator))
 		elif self.tipo == 'B':
 			self.simulator.b_perfuracao_queue.insereClient(cliente.Client("B"))
-			self.simulator.insereEvento(Chegada(self.simulator.instant+aleatorio.exponencial(self.simulator.media_cheg_B),self.simulator, self.tipo))
+			self.simulator.insereEvento(Chegada(self.simulator.instant+self.random_generator.exponencial(self.simulator.media_cheg_B),self.simulator, self.tipo, self.random_generator))
 			#Agenda nova chegada para daqui a aleatorio.exponencial(self.simulator.media_cheg) instantes
 
 
