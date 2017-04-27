@@ -4,7 +4,7 @@ import simulador
 from PyQt4 import QtGui
 import sys
 
-default_params = False
+default_params = True
 
 class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
     def __init__(self, parent=None):
@@ -124,6 +124,7 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
         #MEDIA DISTO TAMBEM SO SE FIZERMOS PARA O NUMERO DE CLIENTES
 
         self.relatorio.tempoSimulacao.setText(str(S.instant))
+        self.relatorio.nRepeticoes.setText(str(S.n_repeticoes))
         self.relatorio.show()
 
 class OutputWindow(QtGui.QMainWindow, outputWindow.Ui_MainWindow):
