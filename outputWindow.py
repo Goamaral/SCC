@@ -466,4 +466,3 @@ class Ui_MainWindow(object):
         self.nameLabel_46.setText(_translate("MainWindow", "Utilizacao media", None))
         self.nameLabel_30.setText(_translate("MainWindow", "Clientes atendidos", None))
         self.nameLabel_28.setText(_translate("MainWindow", "Tempo simulacao", None))
-

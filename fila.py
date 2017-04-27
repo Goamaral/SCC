@@ -8,7 +8,7 @@ class Fila:
     # """Classe que representa um serviço com uma fila de espera associada"""
 
     # Construtor
-    def __init__(self, sim, n_servicos, dist, prox_fila, n_maquinas):
+    def __init__(self, sim, n_servicos, dist, prox_fila, n_maquinas, seed):
         self.fila = []  # Fila de espera do serviço
         self.servico = [] #Lista de Tuplos (cliente, tempo_de_saida) no serviço
         self.n_servicos = n_maquinas
@@ -20,11 +20,12 @@ class Fila:
         self.soma_temp_serv = 0
         self.prox_fila = prox_fila
         self.dist = dist
+        self.random_generator = aleatorio.Random(seed)
 
     def insereClient(self, client):
         # """Método que insere cliente (client) no serviço"""
         if len(self.servico) < self.n_servicos:  # Se serviço livre,
-            tempo_de_saida = self.simulator.instant + aleatorio.normal(self.dist)
+            tempo_de_saida = self.simulator.instant + self.random_generator.normal(self.dist)
             self.servico.append((client, tempo_de_saida))
             sorted(self.servico, key=lambda servico: servico[1], reverse=True)
             self.simulator.insereEvento(
@@ -65,12 +66,5 @@ class Fila:
         utilizacao_serv = self.soma_temp_serv / self.simulator.instant
 
         # Apresenta resultados
-        print("Relatorio: %s"%(nome,))
-        print("Tempo medio de espera", temp_med_fila)
-        print("Comp. medio da fila", comp_med_fila)
-        print("Utilizacao do servico", utilizacao_serv)
-        print("Tempo de simulacao", self.simulator.instant)
-        print("Numero de clientes atendidos", self.atendidos)
-        print("Numero de clientes na fila", len(self.fila))
-
-        return { 'mediaEspera': temp_med_fila, 'utilizacao': utilizacao_serv }
+        return { 'mediaFila': comp_med_fila, 'mediaEspera': temp_med_fila, 'utilizacao': utilizacao_serv,
+            'nClientesAtendidos': self.atendidos, 'nClientesFila': len(self.fila)}

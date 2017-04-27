@@ -558,4 +558,3 @@ class Ui_MainWindow(object):
         self.nameLabel_29.setText(_translate("MainWindow", "Nº Repeticoes", None))
         self.nameLabel_28.setText(_translate("MainWindow", "Tempo simulacao", None))
         self.botaoSimular.setText(_translate("MainWindow", "Simular", None))
-
