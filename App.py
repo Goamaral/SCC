@@ -32,7 +32,7 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
             dist_envernizamento = (1.4, 0.3)
             numero_maquinas_envernizamento = 2
 
-            n_clientes = 100
+            n_clientes = 1000
             tempo_simulacao = None
         else:
             media_cheg_A = float(self.mediaChegadaA.text())
@@ -88,8 +88,8 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
         for i in range(n_repeticoes):
             S = simulador.Simulador(media_cheg_A, dist_perfuracao_A, numero_maquinas_perfuracao_A,
             dist_polimento_A, numero_maquinas_polimento_A, media_cheg_B, dist_perfuracao_B,
-            numero_maquinas_perfuracao_B, dist_perfuracao_B, numero_maquinas_polimento_B,
-            dist_polimento_B, numero_maquinas_polimento_B, i, tempo_simulacao, n_clientes)
+            numero_maquinas_perfuracao_B, dist_polimento_B, numero_maquinas_polimento_B,
+            dist_envernizamento, numero_maquinas_envernizamento, i, tempo_simulacao, n_clientes)
 
             S.executa()
 
