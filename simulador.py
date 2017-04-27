@@ -10,26 +10,29 @@ class Simulador:
         self.event_list.insert_event(event)
 
     # Construtor
-    def __init__(self):
-        self.n_repeticoes = None
-        self.tempo_simulacao = None
-        self.n_clientes = None
+    def __init__(self, media_cheg_A, dist_perfuracao_A, numero_maquinas_perfuracao_A, dist_polimento_A,
+                numero_maquinas_polimento_A, media_cheg_B, dist_perfuracao_B, numero_maquinas_perfuracao_B,
+                dist_polimento_B, numero_maquinas_polimento_B, dist_envernizamento, numero_maquinas_envernizamento,
+                repeticao_i, tempo_simulacao=None, n_clientes=None):
+
+        self.tempo_simulacao = tempo_simulacao
+        self.n_clientes = n_clientes
 
         # Médias das distribuições de chegadas e de atendimento no serviço
-        self.media_cheg_A = None
-        self.dist_perfuracao_A = None
-        self.numero_maquinas_perfuracao_A = None
-        self.dist_polimento_A = None
-        self.numero_maquinas_polimento_A = None
+        self.media_cheg_A = media_cheg_A
+        self.dist_perfuracao_A = dist_perfuracao_A
+        self.numero_maquinas_perfuracao_A = numero_maquinas_perfuracao_A
+        self.dist_polimento_A = dist_polimento_A
+        self.numero_maquinas_polimento_A = numero_maquinas_polimento_A
 
-        self.media_cheg_B = None
-        self.dist_perfuracao_B = None
-        self.numero_maquinas_perfuracao_B = None
-        self.dist_polimento_B = None
-        self.numero_maquinas_polimento_B = None
+        self.media_cheg_B = media_cheg_B
+        self.dist_perfuracao_B = dist_perfuracao_B
+        self.numero_maquinas_perfuracao_B = numero_maquinas_perfuracao_B
+        self.dist_polimento_B = dist_polimento_B
+        self.numero_maquinas_polimento_B = numero_maquinas_polimento_B
 
-        self.dist_envernizamento = None
-        self.numero_maquinas_envernizamento = None
+        self.dist_envernizamento = dist_envernizamento
+        self.numero_maquinas_envernizamento = numero_maquinas_envernizamento
 
         self.a_perfuracao_relat = None
         self.a_polimento_relat = None
@@ -40,18 +43,21 @@ class Simulador:
         # Relógio de simulação - variável que contém o valor do tempo em cada instante
         self.instant = 0  # valor inicial a zero
 
+        #Numero da corrida - vai influenciar nos numeros aleatorios
+        self.repeticao_i = repeticao_i
+
     def setup(self):
         # Serviço - pode haver mais do que um num simulador
         # Queues for objects of type A.
         #Queues for both objects
 
-        self.envernizamento_queue = fila.Fila(self, 2, self.dist_envernizamento, None, self.numero_maquinas_envernizamento, 100000)
+        self.envernizamento_queue = fila.Fila(self, 2, self.dist_envernizamento, None, self.numero_maquinas_envernizamento, 100000+1000000*self.repeticao_i)
 
-        self.a_polimento_queue = fila.Fila(self, 1, self.dist_polimento_A, self.envernizamento_queue, self.numero_maquinas_polimento_A, 200000)
-        self.b_polimento_queue = fila.Fila(self, 2, self.dist_polimento_B, self.envernizamento_queue, self.numero_maquinas_polimento_B, 300000)
+        self.a_polimento_queue = fila.Fila(self, 1, self.dist_polimento_A, self.envernizamento_queue, self.numero_maquinas_polimento_A, 200000+1000000*self.repeticao_i)
+        self.b_polimento_queue = fila.Fila(self, 2, self.dist_polimento_B, self.envernizamento_queue, self.numero_maquinas_polimento_B, 300000*self.repeticao_i)
 
-        self.b_perfuracao_queue = fila.Fila(self, 1 , self.dist_perfuracao_B, self.b_polimento_queue, self.numero_maquinas_perfuracao_B, 400000)
-        self.a_perfuracao_queue = fila.Fila(self, 1, self.dist_perfuracao_A, self.a_polimento_queue, self.numero_maquinas_perfuracao_A, 500000)
+        self.b_perfuracao_queue = fila.Fila(self, 1 , self.dist_perfuracao_B, self.b_polimento_queue, self.numero_maquinas_perfuracao_B, 400000*self.repeticao_i)
+        self.a_perfuracao_queue = fila.Fila(self, 1, self.dist_perfuracao_A, self.a_polimento_queue, self.numero_maquinas_perfuracao_A, 500000*self.repeticao_i)
 
         # Lista de eventos - onde ficam registados todos os eventos que vão ocorrer na simulação
         # Cada simulador só tem uma
@@ -59,8 +65,8 @@ class Simulador:
 
         # Agendamento da primeira chegada
         # Se não for feito, o simulador não tem eventos para simular
-        r1 = aleatorio.Random(600000)
-        r2 = aleatorio.Random(700000)
+        r1 = aleatorio.Random(600000*self.repeticao_i)
+        r2 = aleatorio.Random(700000*self.repeticao_i)
         self.insereEvento(eventos.Chegada(self.instant, self, 'A', r1))
         self.insereEvento(eventos.Chegada(self.instant, self, 'B', r2))
 
@@ -86,13 +92,8 @@ class Simulador:
 
     def relat(self):
         """Método que apresenta os resultados de simula��o finais"""
-        print ("\n\n------------FINAL RESULTS---------------\n")
         self.a_perfuracao_relat = self.a_perfuracao_queue.relat("Perfuracao A")
-        print()
         self.a_polimento_relat = self.a_polimento_queue.relat("Polimento A")
-        print()
         self.b_perfuracao_relat = self.b_perfuracao_queue.relat("Perfuracao B")
-        print()
         self.b_polimento_relat = self.b_polimento_queue.relat("Polimento B")
-        print()
         self.envernizamento_relat = self.envernizamento_queue.relat("Envernizamento")

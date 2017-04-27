@@ -66,12 +66,5 @@ class Fila:
         utilizacao_serv = self.soma_temp_serv / self.simulator.instant
 
         # Apresenta resultados
-        print("Relatorio: %s"%(nome,))
-        print("Tempo medio de espera", temp_med_fila)
-        print("Comp. medio da fila", comp_med_fila)
-        print("Utilizacao do servico", utilizacao_serv)
-        print("Tempo de simulacao", self.simulator.instant)
-        print("Numero de clientes atendidos", self.atendidos)
-        print("Numero de clientes na fila", len(self.fila))
-
-        return { 'mediaEspera': temp_med_fila, 'utilizacao': utilizacao_serv }
+        return { 'mediaFila': comp_med_fila, 'mediaEspera': temp_med_fila, 'utilizacao': utilizacao_serv,
+            'nClientesAtendidos': self.atendidos, 'nClientesFila': len(self.fila)}

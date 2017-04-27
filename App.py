@@ -13,40 +13,77 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
 
     def goToOutputWindow(self):
         self.close()
-        S = simulador.Simulador()
 
-        S.media_cheg_A = float(self.mediaChegadaA.text())
-        S.dist_perfuracao_A = (float(self.mediaPerfuracaoA.text()), float(self.desvioPerfuracaoA.text()))
-        S.numero_maquinas_perfuracao_A = float(self.nMaquinasPerfuracaoA.text())
-        S.dist_polimento_A = (float(self.mediaPolimentoA.text()), float(self.desvioPolimentoA.text()))
-        S.numero_maquinas_polimento_A = float(self.nMaquinasPolimentoA.text())
+        n_repeticoes = int(self.nRepeticoes.text())
 
-        S.media_cheg_B = float(self.mediaChegadaB.text())
-        S.dist_perfuracao_B = (float(self.mediaPerfuracaoB.text()), float(self.desvioPerfuracaoB.text()))
-        S.numero_maquinas_perfuracao_B = float(self.nMaquinasPerfuracaoB.text())
-        S.dist_polimento_B = (float(self.mediaPolimentoB.text()), float(self.desvioPolimentoB.text()))
-        S.numero_maquinas_polimento_B = float(self.nMaquinasPolimentoB.text())
+        sum_media_espera_a_perfuracao = 0
+        sum_utilizacao_a_perfuracao = 0
+        sum_media_espera_a_polimento = 0
+        sum_utilizacao_a_polimento = 0
+        sum_media_espera_b_perfuracao = 0
+        sum_utilizacao_b_perfuracao = 0
+        sum_media_espera_b_polimento = 0
+        sum_utilizacao_b_polimento = 0
+        sum_media_espera_envernizamento = 0
+        sum_utilizacao_envernizamento = 0
+        sum_clientes_atendidos = 0
 
-        S.dist_envernizamento = (float(self.mediaEnvernizamento.text()), float(self.desvioEnvernizamento.text()))
-        S.numero_maquinas_envernizamento = float(self.nMaquinasEnvernizamento.text())
+        for i in range(n_repeticoes):
+            S = simulador.Simulador(float(self.mediaChegadaA.text()), (float(self.mediaPerfuracaoA.text()),
+            float(self.desvioPerfuracaoA.text())), int(self.nMaquinasPerfuracaoA.text()),
+            (float(self.mediaPolimentoA.text()), float(self.desvioPolimentoA.text())),
+            int(self.nMaquinasPolimentoA.text()), float(self.mediaChegadaB.text()),
+            (float(self.mediaPerfuracaoB.text()), float(self.desvioPerfuracaoB.text())),
+            int(self.nMaquinasPerfuracaoB.text()), (float(self.mediaPolimentoB.text()),
+            float(self.desvioPolimentoB.text())), int(self.nMaquinasPolimentoB.text()),
+            (float(self.mediaEnvernizamento.text()), float(self.desvioEnvernizamento.text())),
+            int(self.nMaquinasEnvernizamento.text()), i, tempo_simulação=int(self.tempoSimulacao.text()),
+            n_clientes=int(self.nClientes.text()))
 
-        S.n_clientes = float(self.nClientes.text())
-        S.tempo_simulacao = float(self.tempoSimulacao.text())
-        S.n_repeticoes = float(self.nRepeticoes.text())
+            S.executa()
 
-        S.executa()
+            sum_media_espera_a_perfuracao += S.a_perfuracao_relat["mediaEspera"]
+            sum_utilizacao_a_perfuracao += S.a_perfuracao_relat["utilizacao"]
+            sum_media_espera_a_polimento += S.a_polimento_relat["mediaEspera"]
+            sum_utilizacao_a_polimento += S.a_polimento_relat["utilizacao"]
 
-        self.relatorio.mEsperaPerfuracaoA.setText(str(S.a_perfuracao_relat['mediaEspera']))
-        self.relatorio.utilPerfuracaoA.setText(str(S.a_perfuracao_relat['utilizacao']))
-        self.relatorio.mEsperaPolimentoA.setText(str(S.a_polimento_relat['mediaEspera']))
-        self.relatorio.utilPolimentoA.setText(str(S.a_polimento_relat['utilizacao']))
-        self.relatorio.mEsperaPerfuracaoB.setText(str(S.b_perfuracao_relat['mediaEspera']))
-        self.relatorio.utilPerfuracaoB.setText(str(S.b_perfuracao_relat['utilizacao']))
-        self.relatorio.mEsperaPolimentoB.setText(str(S.b_polimento_relat['mediaEspera']))
-        self.relatorio.utilPolimentoB.setText(str(S.b_polimento_relat['utilizacao']))
-        self.relatorio.mEsperaEnvernizamento.setText(str(S.envernizamento_relat['mediaEspera']))
-        self.relatorio.utilEnvernizamento.setText(str(S.envernizamento_relat['utilizacao']))
-        self.relatorio.clientesAtendidos.setText(str(S.envernizamento_queue.atendidos))
+            sum_media_espera_b_perfuracao += S.b_perfuracao_relat["mediaEspera"]
+            sum_utilizacao_b_perfuracao += S.b_perfuracao_relat["utilizacao"]
+            sum_media_espera_b_polimento += S.b_polimento_relat["mediaEspera"]
+            sum_utilizacao_b_polimento += S.b_polimento_relat["utilizacao"]
+
+            sum_media_espera_envernizamento += S.envernizamento_relat["mediaEspera"]
+            sum_utilizacao_envernizamento += S.envernizamento_relat["utilizacao"]
+
+            sum_clientes_atendidos += S.envernizamento_relat["nClientesAtendidos"]
+
+        media_espera_a_perfuracao += sum_media_espera_a_perfuracao / n_repeticoes
+        media_utilizacao_a_perfuracao += sum_utilizacao_a_perfuracao / n_repeticoes
+        media_espera_a_polimento += sum_media_espera_a_polimento / n_repeticoes
+        media_utilizacao_a_polimento += sum_utilizacao_a_polimento / n_repeticoes
+
+        media_espera_b_perfuracao = sum_media_espera_b_perfuracao / n_repeticoes
+        media_utilizacao_b_perfuracao = sum_utilizacao_b_perfuracao / n_repeticoes
+        media_espera_b_polimento = sum_media_espera_b_polimento / n_repeticoes
+        media_utilizacao_b_polimento = sum_utilizacao_b_polimento / n_repeticoes
+
+        media_utilizacao_envernizamento = sum_utilizacao_envernizamento / n_repeticoes
+        media_espera_envernizamento = sum_media_espera_envernizamento / n_repeticoes
+
+        media_clientes_atendidos = sum_clientes_atendidos / n_repeticoes
+
+        self.relatorio.mEsperaPerfuracaoA.setText(str(media_espera_a_perfuracao))
+        self.relatorio.utilPerfuracaoA.setText(str(media_utilizacao_a_perfuracao))
+        self.relatorio.mEsperaPolimentoA.setText(str(media_espera_a_polimento))
+        self.relatorio.utilPolimentoA.setText(str(media_utilizacao_a_polimento))
+        self.relatorio.mEsperaPerfuracaoB.setText(str(media_espera_b_perfuracao))
+        self.relatorio.utilPerfuracaoB.setText(str(media_utilizacao_b_perfuracao))
+        self.relatorio.mEsperaPolimentoB.setText(str(media_espera_b_polimento))
+        self.relatorio.utilPolimentoB.setText(str(media_utilizacao_b_polimento))
+        self.relatorio.mEsperaEnvernizamento.setText(str(media_espera_envernizamento))
+        self.relatorio.utilEnvernizamento.setText(str(media_utilizacao_envernizamento))
+        self.relatorio.clientesAtendidos.setText(str(media_clientes_atendidos))
+        #MEDIA DISTO TAMBEM SO SE FIZERMOS PARA O NUMERO DE CLIENTES
         self.relatorio.tempoSimulacao.setText(str(S.instant))
         self.relatorio.show()
 
