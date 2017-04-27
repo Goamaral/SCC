@@ -62,15 +62,28 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
 
         sum_media_espera_a_perfuracao = 0
         sum_utilizacao_a_perfuracao = 0
+        sum_atendidos_a_perfuracao = 0
+        sum_clientes_fila_a_perfuracao = 0
+
         sum_media_espera_a_polimento = 0
         sum_utilizacao_a_polimento = 0
+        sum_atendidos_a_polimento = 0
+        sum_clientes_fila_a_polimento = 0
+
         sum_media_espera_b_perfuracao = 0
         sum_utilizacao_b_perfuracao = 0
+        sum_atendidos_a_perfuracao = 0
+        sum_clientes_fila_b_perfuracao = 0
+
         sum_media_espera_b_polimento = 0
         sum_utilizacao_b_polimento = 0
+        sum_atendidos_a_polimento = 0
+        sum_clientes_fila_b_polimento = 0
+
         sum_media_espera_envernizamento = 0
         sum_utilizacao_envernizamento = 0
         sum_clientes_atendidos = 0
+        sum_clientes_fila_envernizamento = 0
 
         for i in range(n_repeticoes):
             S = simulador.Simulador(media_cheg_A, dist_perfuracao_A, numero_maquinas_perfuracao_A,
@@ -82,45 +95,78 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
 
             sum_media_espera_a_perfuracao += S.a_perfuracao_relat["mediaEspera"]
             sum_utilizacao_a_perfuracao += S.a_perfuracao_relat["utilizacao"]
+            sum_atendidos_a_perfuracao += S.a_perfuracao_relat["nClientesAtendidos"]
+            sum_clientes_fila_a_perfuracao += S.a_perfuracao_relat["nClientesFila"]
+
             sum_media_espera_a_polimento += S.a_polimento_relat["mediaEspera"]
             sum_utilizacao_a_polimento += S.a_polimento_relat["utilizacao"]
+            sum_atendidos_a_polimento += S.a_polimento_relat["nClientesAtendidos"]
+            sum_clientes_fila_a_polimento += S.a_polimento_relat["nClientesFila"]
 
             sum_media_espera_b_perfuracao += S.b_perfuracao_relat["mediaEspera"]
             sum_utilizacao_b_perfuracao += S.b_perfuracao_relat["utilizacao"]
+            sum_atendidos_b_perfuracao += S.b_perfuracao_relat["nClientesAtendidos"]
+            sum_clientes_fila_b_perfuracao += S.b_perfuracao_relat["nClientesFila"]
+
             sum_media_espera_b_polimento += S.b_polimento_relat["mediaEspera"]
             sum_utilizacao_b_polimento += S.b_polimento_relat["utilizacao"]
+            sum_atendidos_b_polimento += S.b_polimento_relat["nClientesAtendidos"]
+            sum_clientes_fila_b_polimento += S.b_polimento_relat["nClientesFila"]
 
             sum_media_espera_envernizamento += S.envernizamento_relat["mediaEspera"]
             sum_utilizacao_envernizamento += S.envernizamento_relat["utilizacao"]
-
             sum_clientes_atendidos += S.envernizamento_relat["nClientesAtendidos"]
+            sum_clientes_fila_envernizamento += S.envernizamento_relat["nClientesFila"]
 
-        media_espera_a_perfuracao += sum_media_espera_a_perfuracao / n_repeticoes
-        media_utilizacao_a_perfuracao += sum_utilizacao_a_perfuracao / n_repeticoes
-        media_espera_a_polimento += sum_media_espera_a_polimento / n_repeticoes
-        media_utilizacao_a_polimento += sum_utilizacao_a_polimento / n_repeticoes
+        media_espera_a_perfuracao = sum_media_espera_a_perfuracao / n_repeticoes
+        media_utilizacao_a_perfuracao = sum_utilizacao_a_perfuracao / n_repeticoes
+        media_clientes_atendidos_a_perfuracao = sum_atendidos_a_perfuracao / n_repeticoes
+        media_clientes_fila_a_perfuracao = sum_clientes_fila_a_perfuracao / n_repeticoes
+
+        media_espera_a_polimento = sum_media_espera_a_polimento / n_repeticoes
+        media_utilizacao_a_polimento = sum_utilizacao_a_polimento / n_repeticoes
+        media_clientes_atendidos_a_polimento = sum_atendidos_a_polimento / n_repeticoes
+        media_clientes_fila_a_polimento = sum_clientes_fila_a_polimento / n_repeticoes
 
         media_espera_b_perfuracao = sum_media_espera_b_perfuracao / n_repeticoes
         media_utilizacao_b_perfuracao = sum_utilizacao_b_perfuracao / n_repeticoes
+        media_clientes_atendidos_b_perfuracao = sum_atendidos_b_perfuracao / n_repeticoes
+        media_clientes_fila_b_perfuracao = sum_clientes_fila_b_perfuracao / n_repeticoes
+
         media_espera_b_polimento = sum_media_espera_b_polimento / n_repeticoes
         media_utilizacao_b_polimento = sum_utilizacao_b_polimento / n_repeticoes
+        media_clientes_atendidos_b_polimento = sum_atendidos_b_polimento / n_repeticoes
+        media_clientes_fila_b_polimento = sum_clientes_fila_b_polimento / n_repeticoes
 
         media_utilizacao_envernizamento = sum_utilizacao_envernizamento / n_repeticoes
         media_espera_envernizamento = sum_media_espera_envernizamento / n_repeticoes
-
         media_clientes_atendidos = sum_clientes_atendidos / n_repeticoes
+        media_clientes_fila_envernizamento = sum_clientes_fila_envernizamento / n_repeticoes
 
         self.relatorio.mEsperaPerfuracaoA.setText(str(media_espera_a_perfuracao))
         self.relatorio.utilPerfuracaoA.setText(str(media_utilizacao_a_perfuracao))
+        self.relatorio.atendidosPerfuracaoA.setText(str(media_clientes_atendidos_a_perfuracao))
+        self.relatorio.compPerfuracaoA.setText(str(media_clientes_fila_a_perfuracao))
+
         self.relatorio.mEsperaPolimentoA.setText(str(media_espera_a_polimento))
         self.relatorio.utilPolimentoA.setText(str(media_utilizacao_a_polimento))
+        self.relatorio.atendidosPolimentoA.setText(str(media_clientes_atendidos_a_polimento))
+        self.relatorio.compPolimentoA.setText(str(media_clientes_fila_a_polimento))
+
         self.relatorio.mEsperaPerfuracaoB.setText(str(media_espera_b_perfuracao))
         self.relatorio.utilPerfuracaoB.setText(str(media_utilizacao_b_perfuracao))
+        self.relatorio.atendidosPerfuracaoB.setText(str(media_clientes_atendidos_b_perfuracao))
+        self.relatorio.compPerfuracaoB.setText(str(media_clientes_fila_b_perfuracao))
+
         self.relatorio.mEsperaPolimentoB.setText(str(media_espera_b_polimento))
         self.relatorio.utilPolimentoB.setText(str(media_utilizacao_b_polimento))
+        self.relatorio.atendidosPolimentoB.setText(str(media_clientes_atendidos_b_polimento))
+        self.relatorio.compPolimentoB.setText(str(media_clientes_fila_b_polimento))
+
         self.relatorio.mEsperaEnvernizamento.setText(str(media_espera_envernizamento))
         self.relatorio.utilEnvernizamento.setText(str(media_utilizacao_envernizamento))
         self.relatorio.clientesAtendidos.setText(str(media_clientes_atendidos))
+        self.relatorio.compEnvernizamento.setText(str(media_clientes_fila_envernizamento))
         #MEDIA DISTO TAMBEM SO SE FIZERMOS PARA O NUMERO DE CLIENTES
 
         self.relatorio.tempoSimulacao.setText(str(S.instant))
