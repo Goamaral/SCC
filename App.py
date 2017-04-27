@@ -4,7 +4,7 @@ import simulador
 from PyQt4 import QtGui
 import sys
 
-default_params = True
+default_params = False
 
 class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
     def __init__(self, parent=None):
@@ -50,8 +50,13 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
             dist_envernizamento = (float(self.mediaEnvernizamento.text()), float(self.desvioEnvernizamento.text()))
             numero_maquinas_envernizamento = int(self.nMaquinasEnvernizamento.text())
 
-            n_clientes = int(self.nClientes.text())
-            tempo_simulacao = int(self.tempoSimulacao.text())
+            if self.tipoLimite.currentIndex() == 0:
+                n_clientes = None
+                tempo_simulacao = int(self.valorLimite.text())
+            else:
+                n_clientes = int(self.valorLimite.text())
+                tempo_simulacao = None
+
 
         n_repeticoes = int(self.nRepeticoes.text())
 
