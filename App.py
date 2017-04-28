@@ -124,32 +124,30 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
         media_clientes_atendidos = sum_clientes_atendidos / n_repeticoes
         media_clientes_fila_envernizamento = sum_clientes_fila_envernizamento / n_repeticoes
 
-        print(media_espera_a_perfuracao)
+        self.relatorio.mEsperaPerfuracaoA.setText("%0.3f"%(media_espera_a_perfuracao,))
+        self.relatorio.utilPerfuracaoA.setText("%0.3f"%(media_utilizacao_a_perfuracao,))
+        self.relatorio.atendidosPerfuracaoA.setText("%0.3f"%(media_clientes_atendidos_a_perfuracao,))
+        self.relatorio.compPerfuracaoA.setText("%0.3f"%(media_clientes_fila_a_perfuracao,))
 
-        self.relatorio.mEsperaPerfuracaoA.setText("%0.2f"%(media_espera_a_perfuracao,))
-        self.relatorio.utilPerfuracaoA.setText("%0.2f"%(media_utilizacao_a_perfuracao,))
-        self.relatorio.atendidosPerfuracaoA.setText("%0.2f"%(media_clientes_atendidos_a_perfuracao,))
-        self.relatorio.compPerfuracaoA.setText("%0.2f"%(media_clientes_fila_a_perfuracao,))
+        self.relatorio.mEsperaPolimentoA.setText("%0.3f"%(media_espera_a_polimento,))
+        self.relatorio.utilPolimentoA.setText("%0.3f"%(media_utilizacao_a_polimento,))
+        self.relatorio.atendidosPolimentoA.setText("%0.3f"%(media_clientes_atendidos_a_polimento,))
+        self.relatorio.compPolimentoA.setText("%0.3f"%(media_clientes_fila_a_polimento,))
 
-        self.relatorio.mEsperaPolimentoA.setText("%0.2f"%(media_espera_a_polimento,))
-        self.relatorio.utilPolimentoA.setText("%0.2f"%(media_utilizacao_a_polimento,))
-        self.relatorio.atendidosPolimentoA.setText("%0.2f"%(media_clientes_atendidos_a_polimento,))
-        self.relatorio.compPolimentoA.setText("%0.2f"%(media_clientes_fila_a_polimento,))
+        self.relatorio.mEsperaPerfuracaoB.setText("%0.3f"%(media_espera_b_perfuracao,))
+        self.relatorio.utilPerfuracaoB.setText("%0.3f"%(media_utilizacao_b_perfuracao,))
+        self.relatorio.atendidosPerfuracaoB.setText("%0.3f"%(media_clientes_atendidos_b_perfuracao,))
+        self.relatorio.compPerfuracaoB.setText("%0.3f"%(media_clientes_fila_b_perfuracao,))
 
-        self.relatorio.mEsperaPerfuracaoB.setText("%0.2f"%(media_espera_b_perfuracao,))
-        self.relatorio.utilPerfuracaoB.setText("%0.2f"%(media_utilizacao_b_perfuracao,))
-        self.relatorio.atendidosPerfuracaoB.setText("%0.2f"%(media_clientes_atendidos_b_perfuracao,))
-        self.relatorio.compPerfuracaoB.setText("%0.2f"%(media_clientes_fila_b_perfuracao,))
+        self.relatorio.mEsperaPolimentoB.setText("%0.3f"%(media_espera_b_polimento,))
+        self.relatorio.utilPolimentoB.setText("%0.3f"%(media_utilizacao_b_polimento,))
+        self.relatorio.atendidosPolimentoB.setText("%0.3f"%(media_clientes_atendidos_b_polimento,))
+        self.relatorio.compPolimentoB.setText("%0.3f"%(media_clientes_fila_b_polimento,))
 
-        self.relatorio.mEsperaPolimentoB.setText("%0.2f"%(media_espera_b_polimento,))
-        self.relatorio.utilPolimentoB.setText("%0.2f"%(media_utilizacao_b_polimento,))
-        self.relatorio.atendidosPolimentoB.setText("%0.2f"%(media_clientes_atendidos_b_polimento,))
-        self.relatorio.compPolimentoB.setText("%0.2f"%(media_clientes_fila_b_polimento,))
-
-        self.relatorio.mEsperaEnvernizamento.setText("%0.2f"%(media_espera_envernizamento,))
-        self.relatorio.utilEnvernizamento.setText("%0.2f"%(media_utilizacao_envernizamento,))
-        self.relatorio.clientesAtendidos.setText("%0.2f"%(media_clientes_atendidos,))
-        self.relatorio.compEnvernizamento.setText("%0.2f"%(media_clientes_fila_envernizamento,))
+        self.relatorio.mEsperaEnvernizamento.setText("%0.3f"%(media_espera_envernizamento,))
+        self.relatorio.utilEnvernizamento.setText("%0.3f"%(media_utilizacao_envernizamento,))
+        self.relatorio.clientesAtendidos.setText("%0.3f"%(media_clientes_atendidos,))
+        self.relatorio.compEnvernizamento.setText("%0.3f"%(media_clientes_fila_envernizamento,))
         #MEDIA DISTO TAMBEM SO SE FIZERMOS PARA O NUMERO DE CLIENTES
 
         self.relatorio.tempoSimulacao.setText("%d"%(S.instant))
