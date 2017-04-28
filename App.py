@@ -4,8 +4,6 @@ import simulador
 from PyQt4 import QtGui
 import sys
 
-default_params = True
-
 class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
     def __init__(self, parent=None):
         super(InputWindow, self).__init__(parent)
@@ -16,46 +14,27 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
     def goToOutputWindow(self):
         self.close()
 
-        if default_params:
-            media_cheg_A = 5
-            dist_perfuracao_A = (2, 0.7)
-            numero_maquinas_perfuracao_A = 1
-            dist_polimento_A = (4, 1.2)
-            numero_maquinas_polimento_A = 1
+        media_cheg_A = float(self.mediaChegadaA.text())
+        dist_perfuracao_A = (float(self.mediaPerfuracaoA.text()), float(self.desvioPerfuracaoA.text()))
+        numero_maquinas_perfuracao_A = int(self.nMaquinasPerfuracaoA.text())
+        dist_polimento_A = (float(self.mediaPolimentoA.text()), float(self.desvioPolimentoA.text()))
+        numero_maquinas_polimento_A = int(self.nMaquinasPolimentoA.text())
 
-            media_cheg_B = 1.33
-            dist_perfuracao_B = (0.75, 0.3)
-            numero_maquinas_perfuracao_B = 1
-            dist_polimento_B = (3, 1)
-            numero_maquinas_polimento_B = 2
+        media_cheg_B = float(self.mediaChegadaB.text())
+        dist_perfuracao_B = (float(self.mediaPerfuracaoB.text()), float(self.desvioPerfuracaoB.text()))
+        numero_maquinas_perfuracao_B = int(self.nMaquinasPerfuracaoB.text())
+        dist_polimento_B = (float(self.mediaPolimentoB.text()), float(self.desvioPolimentoB.text()))
+        numero_maquinas_polimento_B = int(self.nMaquinasPolimentoB.text())
 
-            dist_envernizamento = (1.4, 0.3)
-            numero_maquinas_envernizamento = 2
+        dist_envernizamento = (float(self.mediaEnvernizamento.text()), float(self.desvioEnvernizamento.text()))
+        numero_maquinas_envernizamento = int(self.nMaquinasEnvernizamento.text())
 
-            n_clientes = 1000
-            tempo_simulacao = None
+        if self.tipoLimite.currentIndex() == 0:
+            n_clientes = None
+            tempo_simulacao = int(self.valorLimite.text())
         else:
-            media_cheg_A = float(self.mediaChegadaA.text())
-            dist_perfuracao_A = (float(self.mediaPerfuracaoA.text()), float(self.desvioPerfuracaoA.text()))
-            numero_maquinas_perfuracao_A = int(self.nMaquinasPerfuracaoA.text())
-            dist_polimento_A = (float(self.mediaPolimentoA.text()), float(self.desvioPolimentoA.text()))
-            numero_maquinas_polimento_A = int(self.nMaquinasPolimentoA.text())
-
-            media_cheg_B = float(self.mediaChegadaB.text())
-            dist_perfuracao_B = (float(self.mediaPerfuracaoB.text()), float(self.desvioPerfuracaoB.text()))
-            numero_maquinas_perfuracao_B = int(self.nMaquinasPerfuracaoB.text())
-            dist_polimento_B = (float(self.mediaPolimentoB.text()), float(self.desvioPolimentoB.text()))
-            numero_maquinas_polimento_B = int(self.nMaquinasPolimentoB.text())
-
-            dist_envernizamento = (float(self.mediaEnvernizamento.text()), float(self.desvioEnvernizamento.text()))
-            numero_maquinas_envernizamento = int(self.nMaquinasEnvernizamento.text())
-
-            if self.tipoLimite.currentIndex() == 0:
-                n_clientes = None
-                tempo_simulacao = int(self.valorLimite.text())
-            else:
-                n_clientes = int(self.valorLimite.text())
-                tempo_simulacao = None
+            n_clientes = int(self.valorLimite.text())
+            tempo_simulacao = None
 
 
         n_repeticoes = int(self.nRepeticoes.text())
@@ -186,6 +165,31 @@ class OutputWindow(QtGui.QMainWindow, outputWindow.Ui_MainWindow):
 def main():
     app = QtGui.QApplication(sys.argv)
     descricaoSimulacao = InputWindow()
+
+    descricaoSimulacao.mediaChegadaA.setText('5')
+    descricaoSimulacao.mediaPerfuracaoA.setText('2')
+    descricaoSimulacao.desvioPerfuracaoA.setText('0.7')
+    descricaoSimulacao.nMaquinasPerfuracaoA.setText('1')
+    descricaoSimulacao.mediaPolimentoA.setText('4')
+    descricaoSimulacao.desvioPolimentoA.setText('1.2')
+    descricaoSimulacao.nMaquinasPolimentoA.setText('1')
+
+    descricaoSimulacao.mediaChegadaB.setText('1.33')
+    descricaoSimulacao.mediaPerfuracaoB.setText('0.75')
+    descricaoSimulacao.desvioPerfuracaoB.setText('0.3')
+    descricaoSimulacao.nMaquinasPerfuracaoB.setText('1')
+    descricaoSimulacao.mediaPolimentoB.setText('3')
+    descricaoSimulacao.desvioPolimentoB.setText('1')
+    descricaoSimulacao.nMaquinasPolimentoB.setText('2')
+
+    descricaoSimulacao.mediaEnvernizamento.setText('1.4')
+    descricaoSimulacao.desvioEnvernizamento.setText('0.3')
+    descricaoSimulacao.nMaquinasEnvernizamento.setText('2')
+
+    descricaoSimulacao.tipoLimite.setCurrentIndex(1)
+    descricaoSimulacao.valorLimite.setText('1000')
+    descricaoSimulacao.nRepeticoes.setText('1')
+
     descricaoSimulacao.show()
     app.exec_()
 
