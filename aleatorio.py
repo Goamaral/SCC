@@ -48,7 +48,7 @@ class Random:
         self.has_next_normal = True
         return x1
 
-    def reset_stream_count(self):
+    def reset_stream_count():
         Random.stream_i = 0
 
 if __name__ == "__main__":
