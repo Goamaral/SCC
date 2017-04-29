@@ -13,7 +13,7 @@ class Simulador:
     def __init__(self, media_cheg_A, dist_perfuracao_A, numero_maquinas_perfuracao_A, dist_polimento_A,
                 numero_maquinas_polimento_A, media_cheg_B, dist_perfuracao_B, numero_maquinas_perfuracao_B,
                 dist_polimento_B, numero_maquinas_polimento_B, dist_envernizamento, numero_maquinas_envernizamento,
-                repeticao_i, tempo_simulacao=None, n_clientes=None):
+                repeticao_i, tempo_simulacao=0, n_clientes=None):
 
         self.tempo_simulacao = tempo_simulacao
         self.n_clientes = n_clientes
@@ -75,14 +75,26 @@ class Simulador:
     def executa(self):
         self.setup()
         """Método executivo do simulador"""
-        # Enquanto não atender todos os clientes
-        while (self.envernizamento_queue.atendidos < self.n_clientes):
-            #print (self.event_list)  # Mostra lista de eventos - desnecessário; é apenas informativo
-            event = self.event_list.remove_event()  # Retira primeiro evento (é o mais iminente) da lista de eventos
-            self.instant = event.instant  # Actualiza relógio de simula��o
-            self.act_stats()  # Actualiza valores estat�sticos
-            event.executa()  # Executa evento
-        self.relat()  # Apresenta resultados de simulação finais
+        # Simulador limitado pelo numero de clientes
+        if self.n_clientes != None:
+            # Enquanto não atender todos os clientes
+            while (self.envernizamento_queue.atendidos < self.n_clientes):
+                #print (self.event_list)  # Mostra lista de eventos - desnecessário; é apenas informativo
+                event = self.event_list.remove_event()  # Retira primeiro evento (é o mais iminente) da lista de eventos
+                self.instant = event.instant  # Actualiza relógio de simula��o
+                self.act_stats()  # Actualiza valores estat�sticos
+                event.executa()  # Executa evento
+            self.relat()  # Apresenta resultados de simulação finais
+        # Simulador limitado pelo tempo
+        else:
+            while (self.instant < self.tempo_simulacao):
+                #print (self.event_list)  # Mostra lista de eventos - desnecessário; é apenas informativo
+                event = self.event_list.remove_event()  # Retira primeiro evento (é o mais iminente) da lista de eventos
+                self.instant = event.instant  # Actualiza relógio de simula��o
+                self.act_stats()  # Actualiza valores estat�sticos
+                event.executa()  # Executa evento
+            self.relat()  # Apresenta resultados de simulação finais
+
 
     def act_stats(self):
         """Método que actualiza os valores estat�sticos do simulador"""
