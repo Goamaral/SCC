@@ -12,8 +12,6 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
         self.relatorio = OutputWindow()
 
     def goToOutputWindow(self):
-        self.close()
-
         media_cheg_A = float(self.mediaChegadaA.text())
         dist_perfuracao_A = (float(self.mediaPerfuracaoA.text()), float(self.desvioPerfuracaoA.text()))
         numero_maquinas_perfuracao_A = int(self.nMaquinasPerfuracaoA.text())
@@ -65,6 +63,8 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
         sum_clientes_fila_envernizamento = 0
 
         for i in range(n_repeticoes):
+            self.botaoSimular.setText("%0.1f "%(i/n_repeticoes * 100,) + str(' %'))
+            QtGui.qApp.processEvents()
             S = simulador.Simulador(media_cheg_A, dist_perfuracao_A, numero_maquinas_perfuracao_A,
             dist_polimento_A, numero_maquinas_polimento_A, media_cheg_B, dist_perfuracao_B,
             numero_maquinas_perfuracao_B, dist_polimento_B, numero_maquinas_polimento_B,
@@ -123,6 +123,8 @@ class InputWindow(QtGui.QMainWindow, inputWindow.Ui_MainWindow):
         media_espera_envernizamento = sum_media_espera_envernizamento / n_repeticoes
         media_clientes_atendidos = sum_clientes_atendidos / n_repeticoes
         media_clientes_fila_envernizamento = sum_clientes_fila_envernizamento / n_repeticoes
+
+        self.close()
 
         self.relatorio.mEsperaPerfuracaoA.setText("%0.3f"%(media_espera_a_perfuracao,))
         self.relatorio.utilPerfuracaoA.setText("%0.3f"%(media_utilizacao_a_perfuracao,))
