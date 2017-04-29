@@ -25,7 +25,7 @@ class Fila:
     def insereClient(self, client):
         # """Método que insere cliente (client) no serviço"""
         if len(self.servico) < self.n_servicos:  # Se serviço livre,
-            tempo_de_saida = self.simulator.instant + self.random_generator.normal(self.dist)
+            tempo_de_saida = self.simulator.instant + max(self.random_generator.normal(self.dist), 0)
             self.servico.append((client, tempo_de_saida))
             sorted(self.servico, key=lambda servico: servico[1], reverse=True)
             self.simulator.insereEvento(
